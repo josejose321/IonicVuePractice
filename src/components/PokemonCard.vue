@@ -43,13 +43,13 @@
       />
       <ion-card-header>
         <ion-card-title>{{ pokemonData.name ?? '' }}</ion-card-title>
-        <ion-card-subtitle>{{ `${pokemonData.name ?? ''} Details` }}</ion-card-subtitle>
+        <ion-card-subtitle>{{
+          `${pokemonData.name ?? ''} Details`
+        }}</ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        <ion-button color="primary">
-            Preview
-        </ion-button>
+        <ion-button color="primary"> Preview </ion-button>
       </ion-card-content>
     </div>
   </ion-card>
