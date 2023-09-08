@@ -13,6 +13,14 @@
       </ion-header>
 
       <ExploreContainer name="About page" />
+
+      <div class="container mt-5">
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+        <ion-modal :keep-contents-mounted="true">
+          <ion-datetime id="datetime"></ion-datetime>
+        </ion-modal>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -21,7 +29,10 @@
 import ExploreContainer from '@/components/ExploreContainer.vue';
 import {
 IonContent,
+IonDatetime,
+IonDatetimeButton,
 IonHeader,
+IonModal,
 IonPage,
 IonTitle,
 IonToolbar

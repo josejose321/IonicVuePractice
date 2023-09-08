@@ -20,37 +20,25 @@
             <div class="mb-3 mt-4">
               <h2><b>Title - Subtitle</b></h2>
               <p>
-                &nbsp;&nbsp;&nbsp;&nbsp; Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Asperiores nam illum magni maiores nihil quos,
-                deserunt ipsum. Eos, ad placeat ut deleniti saepe recusandae
-                nostrum exercitationem minus nisi, quas quaerat?
+                &nbsp;&nbsp;&nbsp;&nbsp; Lorem ipsum dolor.
               </p>
             </div>
-            <div class="form-floating mb-4 mt-3">
-              <input
-                class="form-control form-control-lg"
-                type="text"
-                placeholder="Enter Email"
-                name="email"
-                v-model="credential.email"
-                required
-              />
-              <label for="email" class="text-muted"
-                >Employee Number / Email Address</label
-              >
-            </div>
 
-            <div class="form-floating mb-4">
-              <input
-                class="form-control form-control-lg"
+            <ion-list>
+              <ion-input
+                label="Email"
+                label-placement="floating"
+                placeholder="Enter Email Address"
+                v-model="credential.email"
+              ></ion-input>
+              <ion-input
+                label="Password"
                 type="password"
+                label-placement="floating"
                 placeholder="Enter Password"
-                name="password"
                 v-model="credential.password"
-                required
-              />
-              <label for="password" class="text-muted">Password</label>
-            </div>
+              ></ion-input>
+            </ion-list>
             <div class="d-flex justify-content-center mb-3">
               <ion-button
                 class="float-center"
@@ -75,7 +63,14 @@
 
 <script setup lang="ts">
 import useAuthStore from '@/store/authStore.js';
-import { IonButton, IonContent, IonPage, IonSpinner } from '@ionic/vue';
+import {
+IonButton,
+IonContent,
+IonInput,
+IonList,
+IonPage,
+IonSpinner
+} from '@ionic/vue';
 import { ref } from 'vue';
 const credential = ref({
   email: 'admin@admin.com',
