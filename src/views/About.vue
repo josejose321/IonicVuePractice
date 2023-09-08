@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title>About</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -19,5 +19,11 @@
 
 <script setup lang="ts">
 import ExploreContainer from '@/components/ExploreContainer.vue';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import {
+IonContent,
+IonHeader,
+IonPage,
+IonTitle,
+IonToolbar
+} from '@ionic/vue';
 </script>

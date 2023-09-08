@@ -1,7 +1,7 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
+    <ion-header >
+      <ion-toolbar color="primary">
         <ion-title>
           <ion-icon aria-hidden="true" :icon="star"></ion-icon>
           Dashboard
@@ -14,21 +14,45 @@
           <ion-title size="large">Dashboard</ion-title>
         </ion-toolbar>
       </ion-header>
+      <div class="row">
+        <div class="col-md-12">
+          <ion-card color="secondary">
+            <ion-card-header>
+              <ion-card-title>{{ dashboardStore.user_count }}</ion-card-title>
+              <ion-card-subtitle>Total Registered User</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+        </div>
+        
+      </div>
 
-      <ExploreContainer name="Dashboard page" />
+      <!-- <ExploreContainer name="Dashboard page" /> -->
+
+      <apexchart
+        width="350"
+        height="400"
+        type="bar"
+        :options="dashboardStore.bar_chart_data.options"
+        :series="dashboardStore.bar_chart_data.series"
+      ></apexchart>
+    </ion-content>
+    <div class="container">
       <ion-button @click="handleLogout">
         <span v-if="!authStore.isLoading">Logout</span>
         <span v-else> <ion-spinner></ion-spinner> </span
       ></ion-button>
-    </ion-content>
+    </div>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import ExploreContainer from '@/components/ExploreContainer.vue';
 import useAuthStore from '@/store/authStore';
-// import useDashboardStore from '@/store/dashboardStore';
+import useDashboardStore from '@/store/dashboardStore';
 import {
+IonCard,
+IonCardHeader,
+IonCardSubtitle,
+IonCardTitle,
 IonContent,
 IonHeader,
 IonIcon,
@@ -37,16 +61,19 @@ IonTitle,
 IonToolbar
 } from '@ionic/vue';
 import { star } from 'ionicons/icons';
-// let dashboardStore = useDashboardStore()
-let authStore = useAuthStore()
+
+const dashboardStore = useDashboardStore()
+const authStore = useAuthStore()
+
 const handleLogout = () => {
   authStore.logout()
 }
-// const initDashboard = () => {
-//   dashboardStore.fetchDashboard()
-//   dashboardStore.fetchUsersPerDay()
-// }
-// onMounted(() => {
-//   initDashboard()
-// })
+
+const initDashboard: any = async () => {
+  await dashboardStore.fetchDashboard()
+  await dashboardStore.fetchUsersPerDay()
+}
+
+// Execute initialization logic when the component is mounted
+initDashboard()
 </script>

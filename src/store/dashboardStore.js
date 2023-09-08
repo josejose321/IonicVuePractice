@@ -1,8 +1,8 @@
 // Utilities
 import { defineStore } from 'pinia';
 // import { useToast } from "vue-toastification";
-import axios from '@/api/index';
 import moment from "moment";
+import axios from '../axios';
 const useDashboardStore = defineStore('dashboardStore', {
   state: () => ({
     //
@@ -23,6 +23,7 @@ const useDashboardStore = defineStore('dashboardStore', {
             },
         ],
     },
+    user_stats:[],
     // toast:useToast(),
     isLoading:false
 
@@ -38,19 +39,21 @@ const useDashboardStore = defineStore('dashboardStore', {
         if (err.response.status === 401) {
             this.router.push('/login');
         } else {
-            // this.toast.error(err.message)
+            alert(err.message)
         }
           
        } finally {
         this.isLoading = false;
        }
     },
+    
     async fetchUsersPerDay() {
         this.isLoading = true;
        try {
         const {data} = await axios.get('api/dashboard/users-per-day')
         const bar_data          = data.map((item) => parseInt(item.user_count))
-        const bar_categories    = data.map((item) => moment(item.date_created).format('ll'))
+        const bar_categories    = data.map((item) => moment(item.date_created).format('l'))
+        this.user_stats = data;
         this.bar_chart_data = {
             options:{
                 chart: {
@@ -72,7 +75,7 @@ const useDashboardStore = defineStore('dashboardStore', {
         if (err.response.status === 401) {
             this.router.push('/login');
         } else {
-            // this.toast.error(err.message)
+            alert(err.message)
         }
           
        } finally {

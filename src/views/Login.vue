@@ -77,14 +77,10 @@
 import useAuthStore from '@/store/authStore.js';
 import { IonButton, IonContent, IonPage, IonSpinner } from '@ionic/vue';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-// import { useToast } from 'vue-toastification';
 const credential = ref({
   email: 'admin@admin.com',
-  password: ''
+  password: 'password'
 })
-let router = useRouter()
-let isLoading: any = ref(false)
 const authStore = useAuthStore()
 
 const tryFunction = () => {

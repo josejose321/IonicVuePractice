@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title>
           <ion-icon :icon="star"></ion-icon> <ion-label>Pokemon</ion-label>
         </ion-title>
