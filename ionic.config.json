@@ -1,0 +1,7 @@
+{
+  "name": "practice_mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
