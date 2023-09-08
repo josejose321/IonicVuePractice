@@ -18,10 +18,12 @@
         <form action="#" method="post">
           <div class="container">
             <div class="mb-3 mt-4">
-              <h2><b>eiMED - Billing</b></h2>
+              <h2><b>Title - Subtitle</b></h2>
               <p>
-                &nbsp;&nbsp;&nbsp;&nbsp; Enter your Employee Number or Email
-                Address and password to start Hospital Information Management.
+                &nbsp;&nbsp;&nbsp;&nbsp; Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Asperiores nam illum magni maiores nihil quos,
+                deserunt ipsum. Eos, ad placeat ut deleniti saepe recusandae
+                nostrum exercitationem minus nisi, quas quaerat?
               </p>
             </div>
             <div class="form-floating mb-4 mt-3">
