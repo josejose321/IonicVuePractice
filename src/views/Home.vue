@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header >
+    <ion-header>
       <ion-toolbar color="primary">
         <ion-title>
           <ion-icon aria-hidden="true" :icon="star"></ion-icon>
@@ -23,7 +23,6 @@
             </ion-card-header>
           </ion-card>
         </div>
-        
       </div>
 
       <!-- <ExploreContainer name="Dashboard page" /> -->
@@ -36,40 +35,28 @@
         :series="dashboardStore.bar_chart_data.series"
       ></apexchart>
     </ion-content>
-    <div class="container">
-      <ion-button @click="handleLogout">
-        <span v-if="!authStore.isLoading">Logout</span>
-        <span v-else> <ion-spinner></ion-spinner> </span
-      ></ion-button>
-    </div>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import useAuthStore from '@/store/authStore';
-import useDashboardStore from '@/store/dashboardStore';
+import useDashboardStore from '@/store/dashboardStore'
 import {
-IonCard,
-IonCardHeader,
-IonCardSubtitle,
-IonCardTitle,
-IonContent,
-IonHeader,
-IonIcon,
-IonPage,
-IonTitle,
-IonToolbar
-} from '@ionic/vue';
-import { star } from 'ionicons/icons';
+  IonCard,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonPage,
+  IonTitle,
+  IonToolbar
+} from '@ionic/vue'
+import { star } from 'ionicons/icons'
 
 const dashboardStore = useDashboardStore()
-const authStore = useAuthStore()
 
-const handleLogout = () => {
-  authStore.logout()
-}
-
-const initDashboard: any = async () => {
+const initDashboard = async (): Promise<void> => {
   await dashboardStore.fetchDashboard()
   await dashboardStore.fetchUsersPerDay()
 }

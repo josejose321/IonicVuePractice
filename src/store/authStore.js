@@ -73,12 +73,12 @@ const useAuthStore = defineStore('authStore', {
           
           this.message = 'success'
           useToast().success("Success!")
-          this.refresh();
+          // this.refresh();
           setTimeout(() =>{
             this.isAuthenticated = true
-            this.router.push('/authenticated/dashboard')
+            this.router.push('/auth/dashboard')
             this.message = null
-          },500)
+          },1000)
         }
         
       } catch(err) {

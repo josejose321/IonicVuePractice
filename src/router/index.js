@@ -6,15 +6,15 @@ import authMiddleware from './middleware';
 const routes = [
   {
     path: '/',
-    redirect: '/authenticated/dashboard'
+    redirect: '/auth/dashboard'
   },
   {
-    path: '/authenticated/',
+    path: '/auth/',
     component: TabsPage,
     children: [
       {
         path: '',
-        redirect: '/authenticated/dashboard',
+        redirect: '/auth/dashboard',
         meta: { requiresAuth: true } 
       },
       {
