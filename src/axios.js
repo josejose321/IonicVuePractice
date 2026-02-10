@@ -14,8 +14,8 @@ import axios from 'axios';
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL: 'http://192.168.0.106:8000', // Change this for production
-//   baseURL: 'http://localhost:8000',
+  // baseURL: 'http://192.168.0.106:8000', // Change this for production
+  baseURL: 'http://localhost:8000',
   withCredentials: true,
 });
 

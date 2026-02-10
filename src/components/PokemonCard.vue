@@ -137,7 +137,7 @@ const props = defineProps<{ url: string }>()
 const isLoading = ref<boolean>(false)
 const errorMessage = ref<string | null>(null)
 const pokemonData = ref<Pokemon>({})
-const modal = ref<HTMLElement | null>(null)
+const modal = ref<any>(null)
 
 // Fetch Pokemon Data
 const fetchPokemonData = async () => {
@@ -175,10 +175,10 @@ const pokemonAbilities = computed(
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
 // Open Preview Modal
-const openPreview = () => modal.value?.$el?.present()
+const openPreview = () => modal.value?.present?.()
 
 // Close Preview Modal
-const closePreview = () => modal.value?.$el?.dismiss()
+const closePreview = () => modal.value?.dismiss?.()
 
 // Fetch data on mount
 onMounted(fetchPokemonData)
