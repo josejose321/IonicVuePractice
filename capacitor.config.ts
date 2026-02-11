@@ -5,7 +5,11 @@ const config: CapacitorConfig = {
   appName: 'practice_mobile',
   webDir: 'dist',
   server: {
-    androidScheme: 'http'
+    androidScheme: 'http',
+  },
+  android: {
+    // Allow HTTP (cleartext) traffic — equivalent to android:usesCleartextTraffic="true"
+    allowMixedContent: true,
   },
   plugins: {
     CapacitorHttp: {
