@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'practice_mobile',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http'
   },
   plugins: {
     CapacitorHttp: {
