@@ -78,6 +78,13 @@
               <ion-icon :icon="helpCircleOutline" class="help-icon"></ion-icon>
               <span>Need help? <span class="link-text">Contact IMISS for Support</span></span>
             </div>
+
+            <!-- API Endpoint Indicator -->
+            <div class="endpoint-badge">
+              <ion-icon :icon="serverOutline" class="endpoint-icon"></ion-icon>
+              <span class="endpoint-label">API:</span>
+              <span class="endpoint-url">{{ apiBaseUrl }}</span>
+            </div>
           </form>
 
         </div>
@@ -97,9 +104,11 @@ import {
   lockClosedOutline,
   logInOutline,
   mailOutline,
+  serverOutline,
 } from 'ionicons/icons'
 import { computed, ref } from 'vue'
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL as string
 const credential = ref({ email: 'admin@admin.com', password: 'password' })
 const focusedField = ref<string | null>(null)
 const showPassword = ref(false)
@@ -325,5 +334,36 @@ const handleLogin = () => {
 .help-icon {
   font-size: 16px;
   flex-shrink: 0;
+}
+
+/* ── Endpoint Badge ───────────────────────────────────── */
+.endpoint-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: var(--ion-item-background);
+  border: 1px solid var(--ion-color-step-200, #e0e0e0);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: var(--ion-color-medium);
+  word-break: break-all;
+}
+
+.endpoint-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+  color: var(--ion-color-primary);
+}
+
+.endpoint-label {
+  font-weight: 600;
+  flex-shrink: 0;
+  color: var(--ion-color-primary);
+}
+
+.endpoint-url {
+  font-family: monospace;
 }
 </style>
