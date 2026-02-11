@@ -3,9 +3,9 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'practice_mobile',
-  webDir: 'dist',
+  webDir: 'http://192.168.254.102:8000',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http'
   },
   plugins: {
     CapacitorHttp: {
