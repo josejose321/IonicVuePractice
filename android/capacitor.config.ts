@@ -3,9 +3,9 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.example.app',
   appName: 'My app',
-  webDir: 'http://192.168.254.102:8000',
+  webDir: 'www.https://josejose321.github.io',
   server: {
-    androidScheme: 'http'
+    androidScheme: 'https'
   },
   plugins: {
     CapacitorHttp: {
