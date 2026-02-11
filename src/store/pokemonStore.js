@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { useToast } from 'vue-toastification'
+import { toast } from '@/utils/toast'
 
 const usePokemonStore = defineStore('pokemon', () => {
-  const toast = useToast()
-
   // ── State ──────────────────────────────────────────────────────────
   const pokemons = ref({
     results: [],
@@ -24,7 +22,7 @@ const usePokemonStore = defineStore('pokemon', () => {
     isLoading.value = true
     try {
       const res = await fetch(url)
-      if (!res.ok) throw new Error('Failed to fetch Pokémon')
+      if (!res.ok) throw new Error(`Failed to fetch Pokémon (${res.status})`)
       pokemons.value = await res.json()
     } catch (err) {
       toast.error(err.message || 'Failed to load Pokémon')

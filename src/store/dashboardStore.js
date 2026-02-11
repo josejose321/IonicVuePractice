@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref, computed, reactive } from 'vue'
-import { useToast } from 'vue-toastification'
+import { toast } from '@/utils/toast'
 import moment from 'moment'
 import axios from '@/axios'
+import { getErrorMessage } from '@/utils/errorMessage'
 
 const useDashboardStore = defineStore('dashboard', () => {
-  const toast = useToast()
-
   // ── State ──────────────────────────────────────────────────────────
   const userCount = ref(0)
   const isLoading = ref(false)
@@ -30,7 +29,10 @@ const useDashboardStore = defineStore('dashboard', () => {
       const { data } = await axios.get('api/dashboard')
       userCount.value = data.user_count
     } catch (err) {
-      toast.error(err.message || 'Failed to load dashboard')
+      if (err.response) {
+        toast.error(getErrorMessage(err, 'Failed to load dashboard'))
+      }
+      // Network errors are already handled by the axios interceptor
     } finally {
       isLoading.value = false
     }
@@ -51,7 +53,10 @@ const useDashboardStore = defineStore('dashboard', () => {
         },
       ]
     } catch (err) {
-      toast.error(err.message || 'Failed to load chart data')
+      if (err.response) {
+        toast.error(getErrorMessage(err, 'Failed to load chart data'))
+      }
+      // Network errors are already handled by the axios interceptor
     } finally {
       isLoading.value = false
     }

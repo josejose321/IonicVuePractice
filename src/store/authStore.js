@@ -1,9 +1,10 @@
+import axios from '@/axios'
+import router from '@/router'
+import { getErrorMessage } from '@/utils/errorMessage'
+import { getToken, removeToken, setToken } from '@/utils/token'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { useToast } from 'vue-toastification'
-import router from '@/router'
-import axios from '@/axios'
-import { getToken, setToken, removeToken } from '@/utils/token'
+import { toast } from '@/utils/toast'
 
 const INITIAL_USER = Object.freeze({
   id: null,
@@ -15,8 +16,6 @@ const INITIAL_USER = Object.freeze({
 })
 
 const useAuthStore = defineStore('auth', () => {
-  const toast = useToast()
-
   // ── State ──────────────────────────────────────────────────────────
   const user = ref({ ...INITIAL_USER })
   const isAuthenticated = ref(false)
@@ -38,7 +37,13 @@ const useAuthStore = defineStore('auth', () => {
       const { data } = await axios.post('api/auth')
       user.value = data
       isAuthenticated.value = true
-    } catch {
+
+    } catch (err) {
+      // Only notify for network errors — auth failures (401) are handled
+      // by the axios interceptor and redirect silently to /login
+      if (!err.response) {
+        toast.error(getErrorMessage(err))
+      }
       await removeToken()
       router.push('/login')
     } finally {
@@ -61,9 +66,11 @@ const useAuthStore = defineStore('auth', () => {
         errors.value = err.response.data.errors
         toast.error('The given data was invalid')
       } else if (status === 401) {
-        toast.error('Invalid Credentials')
+        toast.error('Invalid credentials. Please try again.')
+      } else if (!err.response) {
+        // Network error already toasted by axios interceptor — skip
       } else {
-        toast.error('Internal Server Error')
+        toast.error(getErrorMessage(err, 'Login failed. Please try again.'))
       }
     } finally {
       isLoading.value = false

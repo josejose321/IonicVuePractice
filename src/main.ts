@@ -24,13 +24,11 @@ import '@ionic/vue/css/text-transformation.css'
 /* Theme variables */
 import './theme/variables.css'
 
-import Toast from 'vue-toastification'
 import VueApexCharts from 'vue3-apexcharts'
 
 const app = createApp(App)
   .use(IonicVue)
   .use(createPinia())
-  .use(Toast)
   .use(VueApexCharts)
   .use(router)
 
