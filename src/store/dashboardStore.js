@@ -1,88 +1,64 @@
-// Utilities
-import { defineStore } from 'pinia';
-// import { useToast } from "vue-toastification";
-import moment from "moment";
-import axios from '../axios';
-const useDashboardStore = defineStore('dashboardStore', {
-  state: () => ({
-    //
-    user_count: 0,
-    bar_chart_data:{
-        options:{
-            chart: {
-                id: "vuechart-example",
-              },
-            xaxis: {
-                categories: []
-            }
-        },
-        series: [
-            {
-              name: "Users per Day",
-              data: [],
-            },
-        ],
-    },
-    user_stats:[],
-    // toast:useToast(),
-    isLoading:false
+import { defineStore } from 'pinia'
+import { ref, computed, reactive } from 'vue'
+import { useToast } from 'vue-toastification'
+import moment from 'moment'
+import axios from '@/axios'
 
-  }),
-  actions: {
+const useDashboardStore = defineStore('dashboard', () => {
+  const toast = useToast()
 
-    async fetchDashboard() {
-        this.isLoading = true;
-       try {
-        const {data} = await axios.get('api/dashboard')
-        this.user_count = data.user_count
-       } catch (err) {
-        if (err.response.status === 401) {
-            this.router.push('/login');
-        } else {
-            alert(err.message)
-        }
-          
-       } finally {
-        this.isLoading = false;
-       }
+  // ── State ──────────────────────────────────────────────────────────
+  const userCount = ref(0)
+  const isLoading = ref(false)
+  const userStats = ref([])
+
+  const barChartData = reactive({
+    options: {
+      chart: { id: 'users-per-day', toolbar: { show: false } },
+      xaxis: { categories: [] },
     },
-    
-    async fetchUsersPerDay() {
-        this.isLoading = true;
-       try {
-        const {data} = await axios.get('api/dashboard/users-per-day')
-        const bar_data          = data.map((item) => parseInt(item.user_count))
-        const bar_categories    = data.map((item) => moment(item.date_created).format('l'))
-        this.user_stats = data;
-        this.bar_chart_data = {
-            options:{
-                chart: {
-                    id: "vuechart-example",
-                  },
-                xaxis: {
-                    categories: bar_categories
-                }
-            },
-            series: [
-                {
-                  name: "Users per Day",
-                  data: bar_data,
-                },
-            ],
-            
-        }
-       } catch (err) {
-        if (err.response.status === 401) {
-            this.router.push('/login');
-        } else {
-            alert(err.message)
-        }
-          
-       } finally {
-        this.isLoading = false;
-       }
+    series: [{ name: 'Users per Day', data: [] }],
+  })
+
+  // ── Getters ────────────────────────────────────────────────────────
+  const hasData = computed(() => userCount.value > 0)
+
+  // ── Actions ────────────────────────────────────────────────────────
+  async function fetchDashboard() {
+    isLoading.value = true
+    try {
+      const { data } = await axios.get('api/dashboard')
+      userCount.value = data.user_count
+    } catch (err) {
+      toast.error(err.message || 'Failed to load dashboard')
+    } finally {
+      isLoading.value = false
     }
-    
   }
+
+  async function fetchUsersPerDay() {
+    isLoading.value = true
+    try {
+      const { data } = await axios.get('api/dashboard/users-per-day')
+      userStats.value = data
+      barChartData.options.xaxis.categories = data.map((item) =>
+        moment(item.date_created).format('l')
+      )
+      barChartData.series = [
+        {
+          name: 'Users per Day',
+          data: data.map((item) => parseInt(item.user_count)),
+        },
+      ]
+    } catch (err) {
+      toast.error(err.message || 'Failed to load chart data')
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  // ── Expose ─────────────────────────────────────────────────────────
+  return { userCount, isLoading, userStats, barChartData, hasData, fetchDashboard, fetchUsersPerDay }
 })
+
 export default useDashboardStore

@@ -1,31 +1,40 @@
-// Utilities
-import { defineStore } from 'pinia';
-// import pokemonApi from '@/api/pokemon';
+import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
+import { useToast } from 'vue-toastification'
 
+const usePokemonStore = defineStore('pokemon', () => {
+  const toast = useToast()
 
-const usePokemonStore = defineStore('pokemonStore', {
-  state: () => ({
-    //
-    pokemons:{},
-    isLoading: false
-  }),
-  actions: {
+  // ── State ──────────────────────────────────────────────────────────
+  const pokemons = ref({
+    results: [],
+    next: null,
+    previous: null,
+    count: 0,
+  })
+  const isLoading = ref(false)
 
-    async fetchPokemon(URL) {
+  // ── Getters ────────────────────────────────────────────────────────
+  const totalCount = computed(() => pokemons.value.count)
+  const hasNext = computed(() => !!pokemons.value.next)
+  const hasPrevious = computed(() => !!pokemons.value.previous)
 
-        this.isLoading = true;
-        try {
-            const res = await fetch(URL);
-            this.pokemons = await res.json();
-            console.log(this.pokemons);
-        }catch (e) {
-            alert(e.message);
-        } finally {
-            setTimeout(() =>{
-                this.isLoading = false;
-            },1000)
-        }
-    },
+  // ── Actions ────────────────────────────────────────────────────────
+  async function fetchPokemon(url = 'https://pokeapi.co/api/v2/pokemon') {
+    isLoading.value = true
+    try {
+      const res = await fetch(url)
+      if (!res.ok) throw new Error('Failed to fetch Pokémon')
+      pokemons.value = await res.json()
+    } catch (err) {
+      toast.error(err.message || 'Failed to load Pokémon')
+    } finally {
+      isLoading.value = false
+    }
   }
+
+  // ── Expose ─────────────────────────────────────────────────────────
+  return { pokemons, isLoading, totalCount, hasNext, hasPrevious, fetchPokemon }
 })
+
 export default usePokemonStore

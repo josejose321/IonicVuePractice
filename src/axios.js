@@ -1,47 +1,33 @@
-// import axios from 'axios';
+import { getToken, removeToken } from '@/utils/token'
+import axios from 'axios'
 
-// const token = localStorage.getItem('token');
-// axios.defaults.baseURL = 'http://localhost:8000'
-// axios.defaults.withCredentials = true;
-
-// axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-
-// export default axios;
-
-
-import axios from 'axios';
-
-// Create an Axios instance
 const api = axios.create({
-  // baseURL: 'http://192.168.0.106:8000', // Change this for production
-  baseURL: 'http://localhost:8000',
+  baseURL: 'http://192.168.254.102:8000',
   withCredentials: true,
-});
+})
 
-// Request Interceptor: Dynamically set Authorization header
+// Request Interceptor: attach token from Capacitor Preferences
 api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
+  async (config) => {
+    const token = await getToken()
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`
     }
-    return config;
+    return config
   },
   (error) => Promise.reject(error)
-);
+)
 
-// Response Interceptor: Handle 401 (Unauthorized) globally
+// Response Interceptor: clear token and redirect on 401
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (error.response?.status === 401) {
-      console.warn('Unauthorized! Redirecting to login...');
-      localStorage.removeItem('token');
-      window.location.href = '/login'; // Redirect user to login page
+      await removeToken()
+      window.location.href = '/login'
     }
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
-export default api;
+export default api
