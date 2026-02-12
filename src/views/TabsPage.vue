@@ -23,9 +23,9 @@
           <ion-label>Scanner</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="contact" href="/auth/contact">
-          <ion-icon aria-hidden="true" :icon="mail" />
-          <ion-label>Contact</ion-label>
+        <ion-tab-button tab="users" href="/auth/users">
+          <ion-icon aria-hidden="true" :icon="people" />
+          <ion-label>Users</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="logout" id="confirm-logout">
@@ -56,7 +56,7 @@ import {
   IonTabButton,
   IonTabs,
 } from '@ionic/vue'
-import { flash, home, logOut, mail, qrCodeOutline } from 'ionicons/icons'
+import { flash, home, logOut, people, qrCodeOutline } from 'ionicons/icons'
 
 const authStore = useAuthStore()
 

@@ -38,8 +38,8 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: 'contact',
-        component: () => import('@/views/Contact.vue'),
+        path: 'users',
+        component: () => import('@/views/Users.vue'),
         meta: { requiresAuth: true }
       }
     ]
