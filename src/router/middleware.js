@@ -14,12 +14,13 @@ export default async function authMiddleware(to, _from, next) {
   }
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!token) {
-      // No token — redirect to login, preserve intended destination
-      next({ path: '/login', query: { redirect: to.fullPath } })
-    } else {
-      next()
-    }
+    next()
+    // if (!token) {
+    //   // No token — redirect to login, preserve intended destination
+    //   next({ path: '/login', query: { redirect: to.fullPath } })
+    // } else {
+    //   next()
+    // }
     return
   }
 
