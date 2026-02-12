@@ -35,6 +35,16 @@
 
             <!-- Native platform: full scanner button -->
             <template v-if="scannerStore.isSupported">
+              <!-- Permission permanently denied: guide user to device settings -->
+              <ion-note
+                v-if="permissionStore.permissions.camera === 'denied'"
+                color="danger"
+                class="perm-note"
+              >
+                <ion-icon :icon="cameraOutline"></ion-icon>
+                Camera access was denied. Enable it in Settings &gt; Privacy &gt; Camera, then try again.
+              </ion-note>
+
               <ion-button
                 expand="block"
                 color="primary"
@@ -62,6 +72,7 @@
                     v-model="manualValue"
                     placeholder="e.g. https://example.com"
                     clearInput
+                    label=""
                   ></ion-input>
                 </ion-item>
                 <ion-item>
@@ -151,6 +162,7 @@
 
 <script setup lang="ts">
 import useScannerStore from '@/store/scannerStore'
+import usePermissionStore from '@/store/permissionStore'
 import {
   IonAlert,
   IonButton,
@@ -183,6 +195,7 @@ import {
 // liveQuery in the store keeps scannedItems in sync automatically.
 import {
   barcodeOutline,
+  cameraOutline,
   informationCircleOutline,
   qrCode,
   saveOutline,
@@ -192,6 +205,7 @@ import {
 import { ref } from 'vue'
 
 const scannerStore = useScannerStore()
+const permissionStore = usePermissionStore()
 
 const manualValue = ref('')
 const manualFormat = ref('QR_CODE')
@@ -222,7 +236,8 @@ function formatDate(date: Date | string): string {
 </script>
 
 <style scoped>
-.web-note {
+.web-note,
+.perm-note {
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -230,10 +245,18 @@ function formatDate(date: Date | string): string {
   border-radius: 8px;
   font-size: 13px;
   margin-bottom: 12px;
+}
+
+.web-note {
   background-color: color-mix(in srgb, var(--ion-color-warning) 15%, transparent);
 }
 
-.web-note ion-icon {
+.perm-note {
+  background-color: color-mix(in srgb, var(--ion-color-danger) 15%, transparent);
+}
+
+.web-note ion-icon,
+.perm-note ion-icon {
   font-size: 16px;
   flex-shrink: 0;
   margin-top: 1px;

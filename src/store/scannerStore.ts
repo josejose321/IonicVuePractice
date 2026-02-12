@@ -6,8 +6,11 @@ import { ref, shallowRef } from 'vue'
 import { db } from '@/database/AppDataSource'
 import type { ScannedItem } from '@/database/entities/ScannedItem'
 import { toast } from '@/utils/toast'
+import usePermissionStore from '@/store/permissionStore'
 
 const useScannerStore = defineStore('scanner', () => {
+  const permStore = usePermissionStore()
+
   // ── State ──────────────────────────────────────────────────────────
   const scannedItems = shallowRef<ScannedItem[]>([])
   const isScanning = ref(false)
@@ -42,6 +45,7 @@ const useScannerStore = defineStore('scanner', () => {
     }
     const { supported } = await BarcodeScanner.isSupported()
     isSupported.value = supported
+    if (supported) await permStore.checkPermission('camera')
   }
 
   /** Request camera permission and launch the native barcode scanner. */
@@ -51,8 +55,8 @@ const useScannerStore = defineStore('scanner', () => {
       return
     }
 
-    const { camera } = await BarcodeScanner.requestPermissions()
-    if (camera !== 'granted' && camera !== 'limited') {
+    const state = await permStore.requestPermission('camera')
+    if (state !== 'granted' && state !== 'limited') {
       toast.error('Camera permission is required to scan barcodes.')
       return
     }
