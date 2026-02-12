@@ -26,6 +26,8 @@ import './theme/variables.css'
 
 import VueApexCharts from 'vue3-apexcharts'
 
+// Dexie (IndexedDB) opens lazily on first use — no bootstrap needed.
+
 const app = createApp(App)
   .use(IonicVue)
   .use(createPinia())

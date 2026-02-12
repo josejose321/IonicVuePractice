@@ -13,9 +13,14 @@
           <ion-label>Pokemon</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="about" href="/auth/about">
+        <!-- <ion-tab-button tab="about" href="/auth/about">
           <ion-icon aria-hidden="true" :icon="informationCircle" />
           <ion-label>About</ion-label>
+        </ion-tab-button> -->
+
+        <ion-tab-button tab="scanner" href="/auth/scanner">
+          <ion-icon aria-hidden="true" :icon="qrCodeOutline" />
+          <ion-label>Scanner</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="contact" href="/auth/contact">
@@ -51,7 +56,7 @@ import {
   IonTabButton,
   IonTabs,
 } from '@ionic/vue'
-import { flash, home, informationCircle, logOut, mail } from 'ionicons/icons'
+import { flash, home, logOut, mail, qrCodeOutline } from 'ionicons/icons'
 
 const authStore = useAuthStore()
 

@@ -30,12 +30,17 @@ const routes = [
       {
         path: 'about',
         component: () => import('@/views/About.vue'),
-        meta: { requiresAuth: true } 
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'scanner',
+        component: () => import('@/views/Scanner.vue'),
+        meta: { requiresAuth: true }
       },
       {
         path: 'contact',
         component: () => import('@/views/Contact.vue'),
-        meta: { requiresAuth: true } 
+        meta: { requiresAuth: true }
       }
     ]
   },
