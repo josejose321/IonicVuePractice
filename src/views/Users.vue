@@ -174,9 +174,9 @@
     </ion-content>
 
     <!-- ── Create / Edit modal ────────────────────────────────────── -->
-    <ion-modal :is-open="showModal" @did-dismiss="closeModal">
+    <ion-modal ref="modalRef" @did-dismiss="onModalDismiss">
       <ion-header>
-        <ion-toolbar color="primary">
+        <ion-toolbar color="secondary">
           <ion-buttons slot="start">
             <ion-button @click="closeModal">
               <ion-icon slot="icon-only" :icon="closeOutline" />
@@ -296,8 +296,8 @@
 </template>
 
 <script setup lang="ts">
-import useUserStore from '@/store/userStore'
 import type { LocalUser, SyncStatus } from '@/database/entities/LocalUser'
+import useUserStore from '@/store/userStore'
 import {
   IonAlert,
   IonAvatar,
@@ -336,10 +336,10 @@ import {
   addOutline,
   calendarOutline,
   checkmarkOutline,
+  closeOutline,
   cloudDoneOutline,
   cloudOfflineOutline,
   cloudUploadOutline,
-  closeOutline,
   createOutline,
   eyeOffOutline,
   eyeOutline,
@@ -349,7 +349,7 @@ import {
   syncOutline,
   trashOutline,
 } from 'ionicons/icons'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 
 const userStore = useUserStore()
 
@@ -385,13 +385,13 @@ onIonViewWillEnter(async () => {
 })
 
 // ── Sliding item refs (for programmatic close) ────────────────────────
-const slidingRefs: Record<number, InstanceType<typeof IonItemSliding>> = {}
+const slidingRefs: Record<number, any> = {}
 function closeSlidingItem(localId: number) {
-  slidingRefs[localId]?.close?.()
+  slidingRefs[localId]?.$el?.close()
 }
 
 // ── Modal ─────────────────────────────────────────────────────────────
-const showModal    = ref(false)
+const modalRef     = ref()
 const editingUser  = ref<LocalUser | null>(null)
 const form         = ref({ name: '', email: '', password: '' })
 const showPassword = ref(false)
@@ -402,17 +402,21 @@ const isFormValid = computed(() => {
   return true
 })
 
-function openModal(user: LocalUser | null) {
+async function openModal(user: LocalUser | null) {
   editingUser.value = user
   form.value = user
     ? { name: user.name, email: user.email, password: '' }
     : { name: '', email: '', password: '' }
   showPassword.value = false
-  showModal.value = true
+  await nextTick()
+  modalRef.value?.$el?.present()
 }
 
 function closeModal() {
-  showModal.value = false
+  modalRef.value?.$el?.dismiss()
+}
+
+function onModalDismiss() {
   editingUser.value = null
   showPassword.value = false
 }

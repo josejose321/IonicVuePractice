@@ -76,7 +76,7 @@
 
             <div class="help-row">
               <ion-icon :icon="helpCircleOutline" class="help-icon"></ion-icon>
-              <span>Need help? <span class="link-text">Contact IMISS for Support</span></span>
+              <span>Need help? <span class="link-text" @click="handleGotoDashboard">Contact IMISS for Support</span></span>
             </div>
 
             <!-- API Endpoint Indicator -->
@@ -94,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import useAuthStore from '@/store/authStore'
 import { IonContent, IonIcon, IonPage, IonSpinner } from '@ionic/vue'
 import {
@@ -118,6 +119,10 @@ const errors = computed(() => authStore.errors as Record<string, string[]>)
 
 const handleLogin = () => {
   authStore.login(credential.value)
+}
+
+const handleGotoDashboard = () => {
+  router.push('/auth/dashboard')
 }
 </script>
 
