@@ -36,9 +36,69 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <!-- Pre-download the ML Kit barcode model at install time so scanning
+             works immediately without an internet connection on first use. -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode_ui" />
+
     </application>
 
-    <!-- Permissions -->
+    <!-- Hardware feature declarations
+         android:required="false" keeps the app visible on Play Store for
+         devices that lack the hardware (camera, NFC, Bluetooth). -->
+    <uses-feature android:name="android.hardware.camera"        android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.nfc"           android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth"     android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth_le"  android:required="false" />
+
+    <!-- ── Permissions ─────────────────────────────────────────────── -->
+
+    <!-- Network -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Camera — required for barcode/QR scanning -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Microphone — enable when adding audio recording / speech recognition -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Location -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!-- Photos / Media
+         READ_MEDIA_* replaces READ_EXTERNAL_STORAGE on Android 13+ (API 33+). -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"  android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+
+    <!-- Notifications — runtime dialog required on Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Contacts -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+    <!-- Bluetooth
+         BLUETOOTH / BLUETOOTH_ADMIN cover Android < 12 (API < 31).
+         BLUETOOTH_SCAN / BLUETOOTH_CONNECT / BLUETOOTH_ADVERTISE are required
+         on Android 12+ (API 31+). -->
+    <uses-permission android:name="android.permission.BLUETOOTH"           android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"     android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"      />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"   />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+
+    <!-- NFC -->
+    <uses-permission android:name="android.permission.NFC" />
+
+    <!-- Biometric -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
 </manifest>
